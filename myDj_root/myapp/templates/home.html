@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+{% block content %}
+
+<br>
+<h1><strong>Devices</strong></h1>
+<table class="table table-bordered">
+<thead>
+    <tr>
+        <th>Device Name</th>
+        <th>Description</th>
+        <th>Location</th>
+    </tr>
+</thead>
+{% for device in allDevices %}
+    <tr>
+        <td>{{device.devicename}}</td>
+        <td>{{device.description}}</td>
+        <td>{{device.location}}</td>
+        {% if user.is_authenticated %}
+        <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <td style="width: 1px;"><button class="btn btn-danger" name="devicedeletion" type="submit" value={{device.devicename}} onclick="return confirm('Are you sure?')">Delete</button></td>
+        </form>
+        {% endif %}
+    </tr>
+{% endfor %}
+</table>
+<br>
+<br>
+<h1><strong>Images</strong></h1>
+<table class="table table-bordered">
+<thead>
+    <tr>
+        <th>File Name</th>
+        <th>Description</th>
+        <th>Date Added</th>
+        <th>Number of Playlist In</th>
+    </tr>
+</thead>
+    {% for content in allContent %}
+        <tr>
+            <td>{{content.filename}}</td>
+            <td>{{content.description}}</td>
+            <td>{{content.date_added}}</td>
+            <td>{{content.active}}</td>
+            {% if user.is_authenticated %}
+        <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <td style="width: 1px"><button class="btn btn-danger" name="contentdeletion" type="submit" value={{content.filename}} onclick="return confirm('Are you sure?')">Delete</button></td>
+        </form>
+        {% endif %}
+        </tr>
+    {% endfor %}
+</table>
+
+{% endblock %}
